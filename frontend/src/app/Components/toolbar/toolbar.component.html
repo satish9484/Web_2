@@ -1,0 +1,92 @@
+<div class="layout-container">
+  <!-- Top Navbar -->
+  <mat-toolbar class="nav-top-header py-4">
+    <img src="assets\images\url_logo.png" alt="bb-logo" class="w-[80px] h-auto" />
+    <!-- <span class="menu-spacer"></span> -->
+    <div *ngIf="isLoggedIn$ | async as isLogged">
+      <button mat-button class="user-button" [matMenuTriggerFor]="menu" *ngIf="UserName$ | async as UserName">
+        <mat-icon class="person-icon">person</mat-icon>
+        <span class="username">Hi, {{ UserName }}</span>
+        <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>Logout</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <!-- Main content with sidenav and router-outlet -->
+  <mat-sidenav-container class="content-container">
+    <mat-sidenav *ngIf="isLoggedIn$ | async as isLogged" #drawer class="sidenav" mode="side" opened>
+      <mat-nav-list>
+        <a *ngIf="isLoggedIn$ | async as isLogged" mat-list-item matTooltip="donor" routerLink="/panel/url-detector">
+          <mat-icon mat-list-icon class="">account_circle</mat-icon>
+          <span>Url Detector</span>
+        </a>
+        
+        <a *ngIf="isLoggedIn$ | async as isLogged" mat-list-item matTooltip="donor"
+          routerLink="/panel/bulk-url-detector">
+          <mat-icon mat-list-icon class="">account_circle</mat-icon>
+          <span>Bulk Url Detector</span>
+        </a>
+
+        <a *ngIf="isUser$ | async as isUser" mat-list-item matTooltip="donor"
+          routerLink="/panel/blog">
+          <mat-icon mat-list-icon class="">account_circle</mat-icon>
+          <span>Blogs</span>
+        </a>
+
+        <a *ngIf="isAdmin$ | async as isAdmin" mat-list-item routerLink="/panel/dashboard" matTooltip="Home">
+          <mat-icon mat-list-icon class="">home</mat-icon>
+          <span>Dashboard</span>
+        </a>
+
+        <a *ngIf="isAdmin$ | async as isAdmin" mat-list-item routerLink="/panel/graph" matTooltip="Home">
+          <mat-icon mat-list-icon class="">home</mat-icon>
+          <span>Graph</span>
+        </a>
+
+        <a *ngIf="isAdmin$ | async as isAdmin" mat-list-item routerLink="/panel/manage-users" matTooltip="Home">
+          <mat-icon mat-list-icon class="">home</mat-icon>
+          <span>Manage User</span>
+        </a>
+
+        <a *ngIf="isAdmin$ | async as isAdmin" mat-list-item matTooltip="donor"
+          routerLink="/panel/manage-blog">
+          <mat-icon mat-list-icon class="">account_circle</mat-icon>
+          <span>Manage Blogs</span>
+        </a>
+
+        <a *ngIf="isAdmin$ | async as isAdmin" mat-list-item matTooltip="searchAqi" routerLink="/panel/user-feedback">
+          <mat-icon mat-list-icon class="">supervised_user_circle</mat-icon>
+          <span>Feedback</span>
+        </a>
+
+        <a *ngIf="isLoggedIn$ | async as isLogged" mat-list-item matTooltip="Logout" (click)="logout()">
+          <mat-icon mat-list-icon class="">logout</mat-icon>
+          <span>Logout</span>
+        </a>
+
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+      <div class="scrollable-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="flex flex-row justify-between mx-10 py-6">
+      <div class="flex flex-row">
+        <span class="text-[16px]">Copyrights © All Rights Reserved</span>
+      </div>
+      <div class="flex flex-row">
+        <a href="#" class="no-underline mr-6 text-[16px] text-black">Home</a>
+        <a href="#" class="no-underline mr-6 text-[16px] text-black">About Us</a>
+        <a href="#" class="no-underline mr-6 text-[16px] text-black">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+</div>

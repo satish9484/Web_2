@@ -1,0 +1,31 @@
+<div class="min-w-[1200px] flex flex-row justify-center">
+    <div class="w-[90%] overflow-y-auto hide-scrollbar pt-8">
+        <p class="text-[32px] font-[700]">FAQ</p>
+        <div class="flex flex-row justify-center">
+            <div class="w-[100%] mt-6">
+                <div *ngFor="let item of faqData" class="bg-blue-300 rounded-[30px] px-[30px] py-[10px] mb-2">
+                    <div class="flex flex-row justify-between">
+                        <h3 class="text-[18px] font-[500]">{{item.key}}. {{item.question}}</h3>
+                        <span class="cursor-pointer" (click)="toggleAnswer(item.key)">
+                            <!-- <img *ngIf="activeIndex !== item.key" src="path_to_plus_icon.png" alt="Plus Icon"> -->
+                            <svg *ngIf="activeIndex !== item.key" width="24" height="26" viewBox="0 0 24 26" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 10V18M8 14H16M22 14C22 19.5228 17.5228 24 12 24C6.47715 24 2 19.5228 2 14C2 8.47715 6.47715 4 12 4C17.5228 4 22 8.47715 22 14Z"
+                                    stroke="#000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            <!-- <img *ngIf="activeIndex === item.key" src="path_to_minus_icon.png" alt="Minus Icon"> -->
+                            <svg *ngIf="activeIndex === item.key" width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7 11H15M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z"
+                                    stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                    <p *ngIf="activeIndex === item.key" class="text-[16px] font-[400] mt-2 ml-4">{{item.answer}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

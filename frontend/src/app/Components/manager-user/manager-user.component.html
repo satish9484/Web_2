@@ -1,0 +1,137 @@
+<div class="min-w-[1100px]">
+    <div class="flex flex-col py-10 ml-4">
+        <div class="flex flex-row justify-between">
+            <p class="text-[32px] font-[600] text-black">User Activity</p>
+            <div class="mr-2">
+                <button class="text-white text-[14px] bg-green-600 px-6 py-2 rounded-[20px]" (click)="createUser()">
+                    Create User
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="dataSource.length" class="table-container p-2 rounded-lg mt-10 justify-center">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
+                <!-- Key Column -->
+                <ng-container matColumnDef="s_no" class="small">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                        S. No
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                        {{element.s_no}}
+                    </td>
+                </ng-container>
+
+                <!-- Value Column -->
+                <ng-container matColumnDef="name" class="large">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                        Name
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                        {{element.name}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="email" class="large">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                        Email
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                        {{element.email}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="user_id" class="large">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                        User Id
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                        {{element.user_id}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action" class="large">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                        <button class="text-white text-[14px] bg-blue-600 px-6 py-2 rounded-[20px]"
+                            (click)="editUser(element)">
+                            Edit
+                        </button>
+                        <button class="text-white text-[14px] bg-red-600 px-6 py-2 rounded-[20px] ml-2"
+                            (click)="deleteUser(element)">
+                            Delete
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-50"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    class="hover:bg-gray-100 transition ease-in-out duration-300"></tr>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="isModalOpen" class="random-modal-overlay">
+        <div class="random-modal">
+            <div class="random-modal-header">
+                <h2 *ngIf="isCreateOpen">Create User</h2>
+                <h2 *ngIf="!isCreateOpen">Update User</h2>
+                <button (click)="closeModal()" class="random-btn-close">&times;</button>
+            </div>
+            <div class="random-modal-body">
+                <div class="mb-6">
+                    <label for="name" class="block text-gray-700 text-[16px] mb-[10px]">Name</label>
+                    <input id="name" ype="text" placeholder="Full Name" [(ngModel)]="formData.name"
+                        class="w-full border border-gray-300 rounded-full  py-[8px] px-[8px] text-[16px] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+                </div>
+
+                <!-- Email Field -->
+                <div class="mb-6">
+                    <label for="email" class="block text-gray-700 text-[16px] mb-[10px]">Email</label>
+                    <input id="email" type="email" placeholder="Enter Email" [(ngModel)]="formData.email"
+                        class="w-full border border-gray-300 rounded-full py-[8px] px-[8px] text-[16px] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 text-lg text-[16px] mb-[10px]">Password</label>
+                    <div class="relative">
+                        <input id="password" [type]="hidePassword ? 'text' : 'password'" placeholder="Enter Password"
+                            [(ngModel)]="formData.password"
+                            class="w-full border border-gray-300 rounded-full py-[8px] px-[8px] text-[16px] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+                        <span class="absolute inset-y-0 right-4 flex items-center">
+                            <svg *ngIf="hidePassword" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" (click)="togglePasswordView()"
+                                class="bi bi-eye-slash-fill cursor-pointer" viewBox="0 0 16 16">
+                                <path
+                                    d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                                <path
+                                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                            </svg>
+                            <svg *ngIf="!hidePassword" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" (click)="togglePasswordView()" class="bi bi-eye-fill cursor-pointer"
+                                viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                <path
+                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="random-modal-footer">
+                <button (click)="closeModal()" class="bg-blue-600 text-white px-6 py-2 rounded-[20px]">
+                    Cancel
+                </button>
+                <button (click)="registerUser()" *ngIf="isCreateOpen" class="bg-green-600 text-white px-6 py-2 rounded-[20px] ml-2">
+                    Create
+                </button>
+                <button (click)="updateUser()" *ngIf="!isCreateOpen" class="bg-green-600 text-white px-6 py-2 rounded-[20px] ml-2">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

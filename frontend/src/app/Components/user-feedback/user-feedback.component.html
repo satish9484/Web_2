@@ -1,0 +1,77 @@
+<div class="min-w-[1200px] flex flex-row">
+    <div class="container mx-auto px-6 py-10">
+        <!-- Section Title -->
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-10">User Feedback</h2>
+
+        <!-- Feedback Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Iterate over dataSource using *ngFor -->
+            <div *ngFor="let feedback of dataSource">
+                <div class="bg-white border border-[#D9AA00] rounded-lg p-6 text-center shadow-lg card">
+                    <!-- Profile Image -->
+                    <div class="flex justify-center mb-4">
+                        <img src="https://via.placeholder.com/100" alt="Profile Picture"
+                            class="rounded-full border-4 border-[#D9AA00] w-24 h-24" />
+                    </div>
+                    <!-- User Info -->
+                    <h3 class="text-lg font-semibold text-gray-800">User : {{ feedback._id }}</h3>
+                    <p class="text-sm text-gray-600">Url : {{ feedback.url }}</p>
+                    <p class="text-sm text-gray-600">Predicted Result : {{ feedback.predicted_flag }}</p>
+                    <p class="text-sm text-gray-600">User Feedback : {{ feedback.user_feedback }}</p>
+                    <!-- View More Button -->
+                    <button (click)="openModal(feedback)"
+                        class="bg-[#D9AA00] text-white font-semibold py-2 px-4 rounded-lg mt-4 shadow hover:bg-yellow-600 transition cursor-pointer">
+                        Take Action
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isModalOpen" class="random-modal-overlay">
+        <div class="random-modal min-w-[700px]">
+            <div class="random-modal-header">
+                <h2>URL Details</h2>
+                <button (click)="closeModal()" class="random-btn-close">&times;</button>
+            </div>
+            <div class="random-modal-body">
+                <div class="container mx-auto px-4">
+                    <!-- Enter URL Section -->
+                    <div class="">
+                        <label for="url-input" class="block text-gray-500 text-lg font-bold mb-2">Reported URL</label>
+                        <input id="url-input" type="text" [(ngModel)]="url"
+                            class="border border-gray-400 rounded-full w-full px-4 py-2 text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter url" readonly/>
+                    </div>
+
+                    <div class="">
+                        <label for="url-input" class="block text-gray-500 text-lg font-bold mb-2">Reported Reason</label>
+                        <input id="url-input" type="text" [(ngModel)]="reason"
+                            class="border border-gray-400 rounded-full w-full px-4 py-2 text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter reason" readonly/>
+                    </div>
+
+                    <!-- Button Section -->
+                    <div class="mt-6 flex space-x-4">
+                        <button
+                            class="bg-red-600 text-white font-[500] py-2 px-4 rounded-full shadow-lg focus:outline-none hover:bg-yellow-600 transition"
+                            (click)="updateUrlFlag(false)">
+                            Blacklist URL
+                        </button>
+                        <button
+                            class="bg-green-600 text-white font-[500] py-2 px-4 rounded-full shadow-lg focus:outline-none hover:bg-yellow-600 transition"
+                            (click)="updateUrlFlag(true)">
+                            Whitelist URL
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="random-modal-footer">
+                <button (click)="closeModal()" class="bg-gray-600 text-white px-6 py-2 rounded-[20px]">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

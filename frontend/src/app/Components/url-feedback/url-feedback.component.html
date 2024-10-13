@@ -1,0 +1,46 @@
+<div class="container mx-auto px-4 min-w-[1100px] h-[70vh] mt-10">
+    <!-- Name Section -->
+    <h1 class="font-bold text-2xl text-gray-800">URL Feedback</h1>
+  
+    <!-- URL List Predicted Section -->
+    <div class="bg-yellow-100 p-4 rounded-lg border border-yellow-300 mt-4">
+      <p class="text-gray-800 font-medium">
+        Below URL List have been predicted as wrong
+      </p>
+      <p class="text-gray-600 mt-2">
+        This is not malware, but still predicted as email phishing.
+      </p>
+      <ol class="list-decimal ml-4 text-gray-600 mt-2">
+        <li><a href="#" class="text-blue-600">https://1. www.figma.com/community</a></li>
+      </ol>
+    </div>
+  
+    <!-- Enter URL Section -->
+    <div class="mt-6">
+      <label for="url-input" class="block text-gray-600 text-lg font-bold mb-2">Enter URL</label>
+      <input 
+        id="url-input" 
+        type="text" 
+       [(ngModel)]="url"
+        class="border border-gray-400 rounded-full w-full p-3 text-gray-600 focus:outline-none focus:border-blue-500" 
+        placeholder="Enter url" 
+      />
+    </div>
+  
+    <!-- Button Section -->
+    <div class="mt-6 flex space-x-4">
+      <button 
+        class="bg-[#D9AA00] text-white font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none hover:bg-yellow-600 transition"
+        (click)="blackListUrl()"
+      >
+        Blacklist URL
+      </button>
+      <button 
+        class="bg-[#D9AA00] text-white font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none hover:bg-yellow-600 transition"
+        (click)="whiteListUrl()"
+      >
+        Whitelist URL
+      </button>
+    </div>
+  </div>
+  

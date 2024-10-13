@@ -1,0 +1,86 @@
+<div [ngClass]="{'modal-overlay': openModal, 'hide-modal': !openModal}" id="userProfileModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <img src="abc.jpg" alt="User Profile Picture" class="profile-picture">
+            <h2>John Doe</h2>
+            <span class="close-button" (click)="closeModal()">×</span>
+          </div>
+          <div class="modal-body">
+            <div class="user-details">
+              <div class="detail-item">
+                <span class="detail-title">Donor ID:</span>
+                <span class="detail-value">123</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Email:</span>
+                <span class="detail-value">john.doe.com</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Phone Number:</span>
+                <span class="detail-value">+1 234 567 8901</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Gender:</span>
+                <span class="detail-value">Male</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Date of Birth:</span>
+                <span class="detail-value">1979-08-15</span>
+              </div>
+              <!-- <div class="detail-item">
+                <span class="detail-title">Age:</span>
+                <span class="detail-value">45</span>
+              </div> -->
+              <div class="detail-item">
+                <span class="detail-title">Blood Group:</span>
+                <span class="detail-value">A+</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">City:</span>
+                <span class="detail-value">New York</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Country:</span>
+                <span class="detail-value">USA</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Address:</span>
+                <span class="detail-value">123 Elm Street, New York, NY 10001</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Unit:</span>
+                <span class="detail-value">Cardiology</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Disease:</span>
+                <span class="detail-value">Hypertension</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Eligibility Status:</span>
+                <span class="detail-value">Eligible</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Preferred Donation Center:</span>
+                <span class="detail-value">NY Blood Center</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Last Donation Date:</span>
+                <span class="detail-value">2023-12-01</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Registration Date:</span>
+                <span class="detail-value">2023-01-15</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-title">Action:</span>
+                <span class="detail-value">Admitted</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="close-button-footer" (click)="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+      
+  

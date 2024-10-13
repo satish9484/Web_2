@@ -1,0 +1,160 @@
+<div class="min-w-[1000px]">
+    <div class="flex flex-col py-10 ml-4">
+        <div class="flex flex-row justify-between">
+            <p class="text-[32px] font-[600] text-black">
+                User Activity
+            </p>
+            <div>
+                <input id="email" type="text" placeholder="Search Email" [(ngModel)]="email"
+                    (keypress)="searchUser($event)"
+                    class="min-w-[250px] border border-gray-300 rounded-full py-[10px] px-[10px] text-gray-800 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+                <a href="javascript:void(0)" (click)="clearTextField()"
+                    class="cursor-pointer text-[14px] text-red-600 pl-6" *ngIf="email.trim().length">Clear</a>
+            </div>
+        </div>
+
+        <div *ngIf="dataSource.length" class="table-container p-2 rounded-lg mt-10 justify-center">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
+                <!-- Key Column -->
+                <ng-container matColumnDef="s_no">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 70px;">
+                        S. No
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 50px;">
+                        {{element.s_no}}
+                    </td>
+                </ng-container>
+        
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 130px;">
+                        Name
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 150px;">
+                        {{element.name}}
+                    </td>
+                </ng-container>
+        
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 200px;">
+                        Email
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 200px;">
+                        {{element.email}}
+                    </td>
+                </ng-container>
+        
+                <!-- URL Column (with text wrap) -->
+                <ng-container matColumnDef="url">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 250px;">
+                        URL
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 250px; word-break: break-all; white-space: normal;">
+                        {{element.url}}
+                    </td>
+                </ng-container>
+        
+                <!-- Result Column -->
+                <ng-container matColumnDef="result">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 120px;">
+                        Result
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800 text-center"
+                        style="width: 150px;">
+                        {{element.result}}
+                    </td>
+                </ng-container>
+        
+                <!-- Model Column -->
+                <ng-container matColumnDef="model">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 150px;">
+                        Model
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 150px;">
+                        {{element.model}}
+                    </td>
+                </ng-container>
+        
+                <!-- View More Column -->
+                <ng-container matColumnDef="view_more">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 100px;">
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800"
+                        style="width: 100px;">
+                        <button class="text-white text-[12px] bg-blue-600 px-4 py-2 rounded-[20px]"
+                            (click)="viewMoreAction(element.view_more)">
+                            View More
+                        </button>
+                    </td>
+                </ng-container>
+        
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-50"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    class="hover:bg-gray-100 transition ease-in-out duration-300"></tr>
+            </table>
+        </div>
+        
+    </div>
+
+    <div *ngIf="isModalOpen" class="random-modal-overlay">
+        <div class="random-modal min-w-[700px]">
+            <div class="random-modal-header">
+                <h2>URL Details</h2>
+                <button (click)="closeModal()" class="random-btn-close">&times;</button>
+            </div>
+            <div class="random-modal-body">
+                <div *ngIf="dataSource.length" class="table-container p-2 rounded-lg max-h-[400px] overflow-y-auto">
+                    <table mat-table [dataSource]="modalDataSource"
+                        class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
+                        <!-- Key Column -->
+                        <ng-container matColumnDef="key" class="small">
+                            <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                                Key
+                            </th>
+                            <td mat-cell *matCellDef="let element"
+                                class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                                {{element.key}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Value Column -->
+                        <ng-container matColumnDef="value" class="large">
+                            <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                                Value
+                            </th>
+                            <td mat-cell *matCellDef="let element"
+                                class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                                {{element.value}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Header and Row Definitions -->
+                        <tr mat-header-row *matHeaderRowDef="modalColumns" class="bg-gray-50"></tr>
+                        <tr mat-row *matRowDef="let row; columns: modalColumns;"
+                            class="hover:bg-gray-100 transition ease-in-out duration-300"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="random-modal-footer">
+                <button (click)="closeModal()" class="bg-gray-600 text-white px-6 py-2 rounded-[20px]">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

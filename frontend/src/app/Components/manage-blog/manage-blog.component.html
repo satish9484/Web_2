@@ -1,0 +1,145 @@
+<div class="min-w-[1100px]">
+    <div class="flex flex-col py-10 ml-4">
+        <div class="flex flex-row justify-between">
+            <p class="text-[32px] font-[600] text-black">
+                Manage Blogs
+            </p>
+            <div>
+                <button class="text-white text-[14px] bg-green-600 px-4 py-2 rounded-[20px]"
+                    (click)='editBlogPost({s_no : "isNew", title : "", description : "", url : "", image_url : ""})'>
+                    Create Post
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="dataSource.length" class="table-container p-2 rounded-lg mt-10 justify-center">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
+                <!-- Name Column -->
+                <ng-container matColumnDef="url">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 130px;">
+                        Url
+                    </th>
+                    <td mat-cell *matCellDef="let element"
+                        class="py-4 px-12 border-b border-gray-200 text-gray-800 text-[12px]" style="width: 150px;">
+                        {{element.url}}
+                    </td>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="image_url">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 200px;">
+                        Image Url
+                    </th>
+                    <td mat-cell *matCellDef="let element"
+                        class="py-4 px-6 border-b border-gray-200 text-gray-800 text-[12px]" style="width: 200px;">
+                        {{element.image_url}}
+                    </td>
+                </ng-container>
+
+                <!-- URL Column (with text wrap) -->
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 250px;">
+                        Title
+                    </th>
+                    <td mat-cell *matCellDef="let element"
+                        class="py-4 px-6 border-b border-gray-200 text-gray-800 text-[12px]"
+                        style="width: 250px; word-break: break-all; white-space: normal;">
+                        {{element.title}}
+                    </td>
+                </ng-container>
+
+                <!-- Result Column -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 120px;">
+                        Description
+                    </th>
+                    <td mat-cell *matCellDef="let element"
+                        class="py-4 px-6 border-b border-gray-200 text-gray-800 text-center text-[12px]"
+                        style="width: 150px;">
+                        {{element.description}}
+                    </td>
+                </ng-container>
+
+                <!-- View More Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left"
+                        style="width: 100px;">
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let element"
+                        class="py-4 px-6 border-b border-gray-200 text-gray-800 text-[12px] flex flex-col"
+                        style="width: 150px;">
+                        <button class="text-white text-[12px] bg-blue-600 px-2 py-2 rounded-[20px]"
+                            (click)="editBlogPost(element)">
+                            Edit Post
+                        </button>
+                        <button class="text-white text-[12px] bg-red-600 px-2 py-2 rounded-[20px] mt-2"
+                            (click)="deleteBlogData(element.s_no)">
+                            Delete Post
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-50"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    class="hover:bg-gray-100 transition ease-in-out duration-300"></tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div *ngIf="isModalOpen !== '-1'" class="random-modal-overlay">
+        <div class="random-modal min-w-[700px]">
+            <div class="random-modal-header">
+                <h2>Blog Details</h2>
+                <button (click)="closeModal()" class="random-btn-close">&times;</button>
+            </div>
+            <div class="random-modal-body">
+                <div class="table-container p-2 rounded-lg max-h-[400px] overflow-y-auto">
+                    <div class="">
+                        <label for="url" class="block text-gray-600 text-[14px] font-bold mb-2">Enter URL</label>
+                        <input id="url" type="text" [(ngModel)]="url"
+                            class="border border-gray-400 rounded-full w-full px-3 py-2 text-[12px] text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter url" />
+                    </div>
+                    <div class="mt-2">
+                        <label for="image_url" class="block text-gray-600 text-[14px] font-bold mb-2">Enter Image Url</label>
+                        <input id="image_url" type="text" [(ngModel)]="image_url"
+                            class="border border-gray-400 rounded-full w-full px-3 py-2 text-[12px] text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter image_url" />
+                    </div>
+                    <div class="mt-2">
+                        <label for="title" class="block text-gray-600 text-[14px] font-bold mb-2">Enter Title</label>
+                        <input id="title" type="text" [(ngModel)]="title"
+                            class="border border-gray-400 rounded-full w-full px-3 py-2 text-[12px] text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter title" />
+                    </div>
+                    <div class="mt-2">
+                        <label for="description" class="block text-gray-600 text-[14px] font-bold mb-2">Enter Description</label>
+                        <input id="description" type="text" [(ngModel)]="description"
+                            class="border border-gray-400 rounded-full w-full px-3 py-2 text-[12px] text-gray-600 focus:outline-none focus:border-blue-500"
+                            placeholder="Enter description" />
+                    </div>
+                </div>
+            </div>
+            <div class="random-modal-footer">
+                <button (click)="closeModal()" class="bg-gray-600 text-white px-6 py-2 rounded-[20px]">
+                    Close
+                </button>
+                <button *ngIf="isModalOpen === 'isNew'" (click)="createPost()"
+                    class="bg-green-600 text-white px-6 py-2 rounded-[20px] ml-2">
+                    Save
+                </button>
+                <button *ngIf="isModalOpen !== 'isNew'" (click)="updateBlogData()"
+                    class="bg-green-600 text-white px-6 py-2 rounded-[20px] ml-2">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

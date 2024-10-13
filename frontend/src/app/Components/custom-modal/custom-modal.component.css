@@ -1,0 +1,134 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .hide-modal {
+    display: none;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* Modal Header */
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+  }
+  
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+  }
+  
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333333;
+  }
+  
+  .close-button {
+    font-size: 24px;
+    color: #333333;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+  
+  /* Modal Body */
+  .modal-body {
+    padding-top: 15px;
+  }
+  
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #555555;
+  }
+  
+  .detail-title {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  /* Modal Footer */
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .close-button-footer {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .close-button-footer:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .modal-content {
+      width: 100%;
+      margin: 10px;
+    }
+  
+    h2 {
+      font-size: 20px;
+    }
+  
+    .detail-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  

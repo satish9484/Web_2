@@ -1,0 +1,14 @@
+<div class="min-w-[1300px]">
+  <div class="w-full h-full overflow-y-auto hide-scrollbar">
+    <div class="flex flex-row flex-wrap justify-between w-full mt-4 mb-6">
+      <div>
+        <h2 class="text-[32px] font-[700]">ML Graph</h2>
+      </div>
+    </div>
+    <div class="p-6 bg-white rounded-lg shadow-md">
+      <!-- Angular safely binds HTML content using [innerHTML] -->
+      <div *ngIf="htmlContent; else noContent" [innerHTML]="htmlContent"></div>
+      <ng-template #noContent>No data available</ng-template>
+    </div>
+  </div>
+</div>

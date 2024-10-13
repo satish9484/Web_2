@@ -1,0 +1,125 @@
+<div class="min-h-[70%] flex flex-col justify-center items-center" *ngIf="showUrlInputForm">
+    <!-- Main Content -->
+    <div class="flex flex-col lg:flex-row justify-between items-center lg:space-x-6 p-8 lg:px-24 lg:py-12">
+
+        <!-- Left Side (Form) -->
+        <div class="w-full lg:w-1/2 space-y-6">
+            <p class="text-[#444B59] font-[800] text-[36px] py-[40px]">WELCOME!</p>
+
+            <!-- Url Field -->
+            <div class="py-[10px]">
+                <label for="url" class="block text-gray-700 text-[20px] mb-[20px]">Enter URL</label>
+                <input id="url" type="url" placeholder="Enter url" [(ngModel)]="url"
+                    class="w-full border border-gray-300 rounded-full py-[12px] px-[12px] text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+            </div>
+
+            <!-- Select Model Field -->
+            <!-- <div class="py-[10px]">
+                <label for="model" class="block text-gray-700 text-[20px] mb-[20px]">Select Model</label>
+                <select id="model" [(ngModel)]="selectedModel"
+                    class="w-full border border-gray-300 rounded-full py-[8px] px-[14px] text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#D9AA00]">
+                    <option *ngFor="let model of models" [value]="model.value">{{ model.key }}</option>
+                </select>
+            </div> -->
+
+            <!-- Find Details Button -->
+            <mat-spinner *ngIf="loader" diameter="50"></mat-spinner>
+            <button *ngIf="!loader"
+                class="w-full font-[800] bg-[#D9AA00] text-white rounded-full py-3 text-lg hover:bg-yellow-600 transition"
+                (click)="searchUrlData()">
+                Find Details
+            </button>
+        </div>
+
+
+        <!-- Right Side (Illustration) -->
+        <div class="hidden lg:block lg:w-1/2">
+            <a href="https://google.com/images/123">
+                <img src="assets/images/rightElem.png" alt="Illustration" class="w-full h-auto">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="min-h-[70%] flex flex-col justify-center items-center min-w-[900px]" *ngIf="!showUrlInputForm">
+    <div class="flex flex-col lg:flex-row justify-between items-center lg:space-x-6 p-8 lg:px-24 lg:py-12">
+        <div class="w-full lg:w-1/2 space-y-6" *ngIf="isReportEmpty()">
+            <p class="text-[#444B59] font-[800] text-[36px] py-[40px]">Result -</p>
+
+            <p class="font-[500] text-[20px]">
+                This above provided URL is
+                <span class="text-green-700 font-[600] text-[20px] py-2 rounded-[20px]"
+                    *ngIf="urlReport.status === 'Safe'">
+                    Safe
+                </span>
+                <span class="text-red-700 font-[600] text-[20px] py-2 rounded-[20px]"
+                    *ngIf="urlReport.status === 'Not Safe'">
+                    Not Safe
+                </span>
+            </p>
+
+            <button (click)="viewMore()"
+                class="bg-custom-yellow text-[600] text-white text-[18px] px-6 py-2 rounded-[20px]">
+                View More Details
+            </button>
+            <hr />
+            <div>
+                <p>
+                    Provide feedback to admin for generated result ?
+                </p>
+
+                <div class="py-[10px]">
+                    <label for="url" class="block text-gray-700 text-[20px] mb-[20px]">Reason :</label>
+                    <input id="url" type="url" placeholder="Enter reason" [(ngModel)]="reason"
+                        class="w-full border border-gray-300 rounded-full py-[12px] px-[12px] text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#D9AA00]" />
+                </div>
+
+                <button (click)="feedbackAction(urlReport.status)"
+                    class="bg-green-600 text-[600] text-white text-[14px] px-4 py-2 rounded-[20px]">
+                    Agree with result
+                </button>
+                <button (click)="feedbackAction(urlReport.status === 'Safe' ?'Not Safe' : 'Safe')"
+                    class="bg-red-600 text-[600] text-white text-[14px] px-4 py-2 rounded-[20px] ml-2">
+                    Disagree with result
+                </button>
+            </div>
+        </div>
+
+
+        <div class="lg:w-1/2" *ngIf="isReportEmpty()">
+            <a href="https://google.com/images/123">
+                <img src="assets/images/rightElem.png" alt="Illustration" class="w-full h-auto">
+            </a>
+        </div>
+        <div class="" *ngIf="!isReportEmpty()">
+            <div *ngIf="dataSource.length" class="table-container p-2 rounded-lg">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full rounded-lg overflow-hidden">
+                    <!-- Key Column -->
+                    <ng-container matColumnDef="key" class="small">
+                        <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                            Key
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                            {{element.key}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Value Column -->
+                    <ng-container matColumnDef="value" class="large">
+                        <th mat-header-cell *matHeaderCellDef class="bg-[#D9AA00] text-white py-4 px-6 text-left">
+                            Value
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="py-4 px-6 border-b border-gray-200 text-gray-800">
+                            {{element.value}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Header and Row Definitions -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-50"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                        class="hover:bg-gray-100 transition ease-in-out duration-300"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
